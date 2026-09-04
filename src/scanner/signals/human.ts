@@ -32,6 +32,14 @@ export const humanSignals: SignalRule[] = [
     test: (ctx) => (rawHtml(ctx).includes("github.com/") ? { evidence: "github.com link" } : null),
   },
   {
+    id: "human.codeberg",
+    category: "human",
+    weight: -6,
+    label: "Links to Codeberg",
+    description: "A real Codeberg link points to actual source or a real person.",
+    test: (ctx) => (rawHtml(ctx).includes("codeberg.org/") ? { evidence: "codeberg.org" } : null),
+  },
+  {
     id: "human.rich-meta",
     category: "human",
     weight: -2,

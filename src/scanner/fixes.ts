@@ -332,6 +332,14 @@ export const QUICK_WINS: QuickWin[] = [
     label: "Link your GitHub",
     summary: "If the project is open source or you have a real profile, link it.",
     prompt: "If the project has a public repository or the maker has a GitHub profile worth showing, add a link to it in the footer or header. Skip this if there is nothing real to link.",
+    skipIfSignal: "human.codeberg",
+  },
+  {
+    id: "human.codeberg",
+    label: "Link your Codeberg",
+    summary: "If the project is open source or you have a real profile, link it.",
+    prompt: "If the project has a public repository or the maker has a Codeberg profile worth showing, add a link to it in the footer or header. Skip this if there is nothing real to link.",
+    skipIfSignal: "human.github",
   },
   {
     id: "human.rich-meta",
