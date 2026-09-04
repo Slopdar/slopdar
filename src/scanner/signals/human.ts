@@ -32,6 +32,22 @@ export const humanSignals: SignalRule[] = [
     test: (ctx) => (rawHtml(ctx).includes("github.com/") ? { evidence: "github.com link" } : null),
   },
   {
+    id: "human.codeberg",
+    category: "human",
+    weight: -6,
+    label: "Links to Codeberg",
+    description: "A real Codeberg link points to actual source or a real person.",
+    test: (ctx) => {
+      const $ = ctx.$;
+      const found = new Set<string>();
+      $("a[href]").each((_, el) => {
+        const href = ($(el).attr("href") || "").toLowerCase();
+        if (href.includes("codeberg.org/")) found.add(href);
+      });
+      return found.size > 0 ? { evidence: "codeberg.org link" } : null;
+    },
+  },
+  {
     id: "human.rich-meta",
     category: "human",
     weight: -2,

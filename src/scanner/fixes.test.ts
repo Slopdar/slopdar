@@ -99,6 +99,17 @@ test("quick wins skip signals the site already earned or that are listed as issu
   assert.ok(!covered.some((w) => w.id === "human.rich-meta"), "rich-meta win should be skipped when missing-meta is an issue");
 });
 
+test("quick wins skip mutually exclusive signals", () => {
+  const mutexSignals = [sig("human.codeberg", -6), sig("human.github", -3)];
+  function checkWins(list: typeof mutexSignals) {
+    const wins = quickWinsFor(list.slice(0,1));
+    return assert.ok(!wins.some((w) => w.id === list[1].id), `${list[1].id} win should be skipped when ${list[0].id} is detected`);
+  }
+  checkWins(mutexSignals);
+  mutexSignals.reverse();
+  checkWins(mutexSignals);
+});
+
 test("composeFixPrompt returns null only when nothing is actionable", () => {
   // Every human signal earned + only non-fixable tells matched → nothing to say.
   const allHuman = ALL_SIGNALS.filter((r) => r.category === "human").map((r) => sig(r.id, r.weight));
