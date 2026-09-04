@@ -29,7 +29,15 @@ export const humanSignals: SignalRule[] = [
     weight: -3,
     label: "Links to GitHub",
     description: "A real GitHub link points to actual source or a real person.",
-    test: (ctx) => (rawHtml(ctx).includes("github.com/") ? { evidence: "github.com link" } : null),
+    test: (ctx) => {
+      const $ = ctx.$;
+      const found = new Set<string>();
+      $("a[href]").each((_, el) => {
+        const href = ($(el).attr("href") || "").toLowerCase();
+        if (href.includes("github.com/")) found.add(href);
+      });
+      return found.size > 0 ? { evidence: "github.com link" } : null;
+    },
   },
   {
     id: "human.rich-meta",
